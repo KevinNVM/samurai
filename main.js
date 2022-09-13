@@ -4,13 +4,13 @@ const gameDisplayText = document.querySelector("#displayText");
 
 let PLAYER1_JUMP_HEIGHT = 17.5;
 let PLAYER1_MOVEMENT_SPEED = 5;
-let PLAYER1_DAMAGE = 6;
+let PLAYER1_DAMAGE = 10;
 let PLAYER1_HEALTH = 100;
 let PLAYER1_REACH = 100;
 
 let PLAYER2_JUMP_HEIGHT = 17.5;
 let PLAYER2_MOVEMENT_SPEED = 5;
-let PLAYER2_DAMAGE = 4;
+let PLAYER2_DAMAGE = 9;
 let PLAYER2_HEALTH = 100;
 let PLAYER2_REACH = 100;
 
@@ -25,6 +25,14 @@ canvas.width = 1024;
 canvas.height = 568;
 
 c.fillRect(0, 0, canvas.width, canvas.height);
+
+c.rect(100, 40, 200, 100);
+c.fillStyle = "black";
+c.shadowColor = "#000";
+c.shadowBlur = 50;
+c.shadowOffsetX = 10;
+c.shadowOffsetY = -20;
+c.fill();
 
 let gravity = 0.7;
 
@@ -96,7 +104,7 @@ const player = new Samurai({
   },
   attackBox: {
     offset: {
-      x: 0,
+      x: PLAYER1_REACH,
       y: 50,
     },
     width: 100,
@@ -154,7 +162,7 @@ const enemy = new Samurai({
   },
   attackBox: {
     offset: {
-      x: 0,
+      x: -1 * PLAYER2_REACH,
       y: 50,
     },
     width: 100,
@@ -177,8 +185,8 @@ function animate() {
     shop.update();
     c.fillStyle = "rgba(255, 255, 255, .2)";
     c.fillRect(0, 0, canvas.width, canvas.height);
-    player.update();
     enemy.update();
+    player.update();
 
     // debug
     // console.log(player.velocity);
