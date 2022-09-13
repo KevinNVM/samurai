@@ -13,6 +13,11 @@ let PLAYER2_MOVEMENT_SPEED = 5;
 let PLAYER2_DAMAGE = 9;
 let PLAYER2_HEALTH = 100;
 let PLAYER2_REACH = 100;
+let fps = 1000000000;
+let setMaxFps = (Maxfps) => {
+  fps = Maxfps;
+  gravity = 1;
+};
 
 const PLAYER_COLOR = "#ffff";
 const ENEMY_COLOR = "red";
@@ -177,14 +182,24 @@ enemy.draw();
 decreaseTimer();
 
 function animate() {
-  requestAnimationFrame(animate);
+  setTimeout(() => {
+    requestAnimationFrame(animate);
+  }, 1000 / fps);
   if (!document.hidden) {
+    c.rect(100, 40, 200, 100);
+    c.fillStyle = "black";
+    c.shadowColor = "#000";
+    c.shadowBlur = 50;
+    c.shadowOffsetX = 10;
+    c.shadowOffsetY = -20;
+    c.fill();
     c.fillStyle = GAME_BACKGROUND_COLOR;
     c.fillRect(0, 0, canvas.width, canvas.height);
     background.update();
     shop.update();
     c.fillStyle = "rgba(255, 255, 255, .2)";
     c.fillRect(0, 0, canvas.width, canvas.height);
+
     enemy.update();
     player.update();
 
