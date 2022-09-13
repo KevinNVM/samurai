@@ -13,11 +13,6 @@ let PLAYER2_MOVEMENT_SPEED = 5;
 let PLAYER2_DAMAGE = 9;
 let PLAYER2_HEALTH = 100;
 let PLAYER2_REACH = 100;
-let fps = 1000000000;
-let setMaxFps = (Maxfps) => {
-  fps = Maxfps;
-  gravity = 1;
-};
 
 const PLAYER_COLOR = "#ffff";
 const ENEMY_COLOR = "red";
@@ -182,123 +177,112 @@ enemy.draw();
 decreaseTimer();
 
 function animate() {
-  setTimeout(() => {
-    requestAnimationFrame(animate);
-  }, 1000 / fps);
-  if (!document.hidden) {
-    c.rect(100, 40, 200, 100);
-    c.fillStyle = "black";
-    c.shadowColor = "#000";
-    c.shadowBlur = 50;
-    c.shadowOffsetX = 10;
-    c.shadowOffsetY = -20;
-    c.fill();
-    c.fillStyle = GAME_BACKGROUND_COLOR;
-    c.fillRect(0, 0, canvas.width, canvas.height);
-    background.update();
-    shop.update();
-    c.fillStyle = "rgba(255, 255, 255, .2)";
-    c.fillRect(0, 0, canvas.width, canvas.height);
+  requestAnimationFrame(animate);
+  c.fillStyle = GAME_BACKGROUND_COLOR;
+  c.fillRect(0, 0, canvas.width, canvas.height);
+  background.update();
+  shop.update();
+  c.fillStyle = "rgba(255, 255, 255, .2)";
+  c.fillRect(0, 0, canvas.width, canvas.height);
 
-    enemy.update();
-    player.update();
+  enemy.update();
+  player.update();
 
-    // debug
-    // console.log(player.velocity);
-    // console.log(enemy.velocity);
-    // console.log(player.position.y, player.velocity.y);
+  // debug
+  // console.log(player.velocity);
+  // console.log(enemy.velocity);
+  // console.log(player.position.y, player.velocity.y);
 
-    // Player Movement
-    player.velocity.x = 0;
-    console.log(player.position.x);
-    if (key.a.pressed && player.lastKey == "a") {
-      if (player.position.x !== 0) {
-        player.switchSprite("run");
-        player.velocity.x = -1 * PLAYER1_MOVEMENT_SPEED;
-      }
-    } else if (key.d.pressed && player.lastKey == "d") {
-      if (player.position.x < 924) {
-        player.switchSprite("run");
-        player.velocity.x = PLAYER1_MOVEMENT_SPEED;
-      }
-    } else {
-      player.switchSprite("idle");
+  // Player Movement
+  player.velocity.x = 0;
+  console.log(player.position.x);
+  if (key.a.pressed && player.lastKey == "a") {
+    if (player.position.x !== 0) {
+      player.switchSprite("run");
+      player.velocity.x = -1 * PLAYER1_MOVEMENT_SPEED;
     }
-    // jumping
-    if (player.velocity.y < 0) {
-      player.switchSprite("jump");
+  } else if (key.d.pressed && player.lastKey == "d") {
+    if (player.position.x < 924) {
+      player.switchSprite("run");
+      player.velocity.x = PLAYER1_MOVEMENT_SPEED;
     }
-    // falling
-    else if (player.velocity.y > 0) {
-      player.switchSprite("fall");
-    }
+  } else {
+    player.switchSprite("idle");
+  }
+  // jumping
+  if (player.velocity.y < 0) {
+    player.switchSprite("jump");
+  }
+  // falling
+  else if (player.velocity.y > 0) {
+    player.switchSprite("fall");
+  }
 
-    // Enemy Movement
-    enemy.velocity.x = 0;
-    if (key.ArrowLeft.pressed && enemy.lastKey == "ArrowLeft") {
-      if (enemy.position.x >= 0) {
-        enemy.velocity.x = -1 * PLAYER2_MOVEMENT_SPEED;
-        enemy.switchSprite("run");
-      }
-    } else if (key.ArrowRight.pressed && enemy.lastKey == "ArrowRight") {
-      if (enemy.position.x < 924) {
-        enemy.velocity.x = PLAYER2_MOVEMENT_SPEED;
-        enemy.switchSprite("run");
-      }
-    } else {
-      enemy.switchSprite("idle");
+  // Enemy Movement
+  enemy.velocity.x = 0;
+  if (key.ArrowLeft.pressed && enemy.lastKey == "ArrowLeft") {
+    if (enemy.position.x >= 0) {
+      enemy.velocity.x = -1 * PLAYER2_MOVEMENT_SPEED;
+      enemy.switchSprite("run");
     }
-    // jumping
-    if (enemy.velocity.y < 0) {
-      enemy.switchSprite("jump");
+  } else if (key.ArrowRight.pressed && enemy.lastKey == "ArrowRight") {
+    if (enemy.position.x < 924) {
+      enemy.velocity.x = PLAYER2_MOVEMENT_SPEED;
+      enemy.switchSprite("run");
     }
-    // falling
-    else if (enemy.velocity.y > 0) {
-      enemy.switchSprite("fall");
-    }
+  } else {
+    enemy.switchSprite("idle");
+  }
+  // jumping
+  if (enemy.velocity.y < 0) {
+    enemy.switchSprite("jump");
+  }
+  // falling
+  else if (enemy.velocity.y > 0) {
+    enemy.switchSprite("fall");
+  }
 
-    // Detect Collision
-    // Player
-    if (
-      rectangularCollision({ rect1: player, rect2: enemy }) &&
-      player.isAttacking &&
-      player.framesCurrent === 2
-    ) {
-      enemy.takeHit(PLAYER1_DAMAGE);
-      player.isAttacking = false;
-      gsap.to("#playerHealth", {
-        width: `${enemy.health}%`,
-      });
-      console.log("player hit");
-    }
-    // if player misses
-    if (player.isAttacking && player.framesCurrent == 2) {
-      player.isAttacking = false;
-    }
+  // Detect Collision
+  // Player
+  if (
+    rectangularCollision({ rect1: player, rect2: enemy }) &&
+    player.isAttacking &&
+    player.framesCurrent === 2
+  ) {
+    enemy.takeHit(PLAYER1_DAMAGE);
+    player.isAttacking = false;
+    gsap.to("#playerHealth", {
+      width: `${enemy.health}%`,
+    });
+    console.log("player hit");
+  }
+  // if player misses
+  if (player.isAttacking && player.framesCurrent == 2) {
+    player.isAttacking = false;
+  }
 
-    // Enemy
-    if (
-      rectangularCollision({ rect1: player, rect2: enemy }) &&
-      enemy.isAttacking &&
-      enemy.framesCurrent == 2
-    ) {
-      player.takeHit(PLAYER2_DAMAGE);
-      enemy.isAttacking = false;
-      gsap.to("#enemyHealth", {
-        width: `${player.health}%`,
-      });
-      console.log("enemy hit");
-    }
-    // if player misses
-    if (enemy.isAttacking && enemy.framesCurrent == 2) {
-      enemy.isAttacking = false;
-    }
+  // Enemy
+  if (
+    rectangularCollision({ rect1: player, rect2: enemy }) &&
+    enemy.isAttacking &&
+    enemy.framesCurrent == 2
+  ) {
+    player.takeHit(PLAYER2_DAMAGE);
+    enemy.isAttacking = false;
+    gsap.to("#enemyHealth", {
+      width: `${player.health}%`,
+    });
+    console.log("enemy hit");
+  }
+  // if player misses
+  if (enemy.isAttacking && enemy.framesCurrent == 2) {
+    enemy.isAttacking = false;
+  }
 
-    // end game based on health
-    if (enemy.health <= 0 || player.health <= 0) {
-      gameDisplayText.style.display = "flex";
-      determineWinner({ player, enemy, timerId });
-    }
+  // end game based on health
+  if (enemy.health <= 0 || player.health <= 0) {
+    gameDisplayText.style.display = "flex";
+    determineWinner({ player, enemy, timerId });
   }
 }
 

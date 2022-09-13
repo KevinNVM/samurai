@@ -136,7 +136,6 @@ class Samurai extends Game {
 
   takeHit(dmg) {
     this.health -= dmg;
-    console.log(this.health);
     if (this.health <= 0) {
       this.switchSprite("death");
     } else {
