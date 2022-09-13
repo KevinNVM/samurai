@@ -65,7 +65,7 @@ const player = new Samurai({
     y: -10,
   },
   color: PLAYER_COLOR,
-  imageSrc: "./img/samuraiMack/idle.png",
+  imageSrc: "./img/samuraiMack/Idle.png",
   framesMax: 8,
   scale: 2.5,
   offset: {
@@ -74,23 +74,23 @@ const player = new Samurai({
   },
   sprites: {
     idle: {
-      imageSrc: "./img/samuraiMack/idle.png",
+      imageSrc: "./img/samuraiMack/Idle.png",
       framesMax: 8,
     },
     run: {
-      imageSrc: "./img/samuraiMack/run.png",
+      imageSrc: "./img/samuraiMack/Run.png",
       framesMax: 8,
     },
     jump: {
-      imageSrc: "./img/samuraiMack/jump.png",
+      imageSrc: "./img/samuraiMack/Jump.png",
       framesMax: 2,
     },
     fall: {
-      imageSrc: "./img/samuraiMack/fall.png",
+      imageSrc: "./img/samuraiMack/Fall.png",
       framesMax: 2,
     },
     attack1: {
-      imageSrc: "./img/samuraiMack/attack1.png",
+      imageSrc: "./img/samuraiMack/Attack1.png",
       framesMax: 6,
     },
     takeHit: {
